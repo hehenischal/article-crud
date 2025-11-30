@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from home.models import Article,Author
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='/admin/login/')
 def index(req):
     articles = Article.objects.all()
     context = {
@@ -8,6 +11,7 @@ def index(req):
     }
     return render(req,'index.html',context)
 
+@login_required(login_url='/admin/login/')
 def detail(request,slug):
     article = Article.objects.get(slug = slug)
     context = {
@@ -15,7 +19,7 @@ def detail(request,slug):
     }
     return render(request,'detail.html',context)
 
-
+@login_required(login_url='/admin/login/')
 def create(request):
     if request.method=="POST":
         title = request.POST.get('title','default title')
@@ -39,6 +43,7 @@ def create(request):
     }
     return render(request,'create.html',context)
 
+@login_required(login_url='/admin/login/')
 def update(request,id):
     article = Article.objects.get(id=id)
     if request.method=="POST":
