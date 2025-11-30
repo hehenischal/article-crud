@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{article.title}}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Articles</a>
+        </div>
+    </nav>
+    
+    <div class="container py-5">
+        <!-- Breadcrumb -->
+        <nav style="--bs-breadcrumb-divider: '/'" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="breadcrumb-item">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+            </ol>
+        </nav>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title display-5 mb-3">{{article.title}}</h1>
+                <div class="mb-3 text-muted">
+                    <span class="me-3"><strong>Author:</strong> {{article.author}}</span>
+                    <span><strong>Email:</strong> <a href="mailto:{{article.author_email}}">{{article.author_email}}</a></span>
+                </div>
+
+                <h2 class="h5">Content</h2>
+                <p class="card-text">{{article.content}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS (optional for interactive components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
+</body>
+</html>
