@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from home.models import Article,Author
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -86,3 +86,11 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+
+    return redirect('home')
