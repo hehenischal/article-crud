@@ -1,6 +1,11 @@
 from django.shortcuts import render,redirect
 from home.models import Article,Author
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.forms import AuthenticationForm
 
+
+@login_required
 def index(req):
     articles = Article.objects.all()
     context = {
@@ -8,6 +13,7 @@ def index(req):
     }
     return render(req,'index.html',context)
 
+@login_required
 def detail(request,slug):
     article = Article.objects.get(slug = slug)
     context = {
@@ -15,7 +21,7 @@ def detail(request,slug):
     }
     return render(request,'detail.html',context)
 
-
+@login_required
 def create(request):
     if request.method=="POST":
         title = request.POST.get('title','default title')
@@ -39,6 +45,7 @@ def create(request):
     }
     return render(request,'create.html',context)
 
+@login_required
 def update(request,id):
     article = Article.objects.get(id=id)
     if request.method=="POST":
@@ -62,3 +69,28 @@ def delete(request,id):
         Article.objects.get(id = id).delete()
     return redirect('home')
 
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+
+    return redirect('home')
